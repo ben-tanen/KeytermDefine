@@ -11,13 +11,16 @@ function initialize() {
     var mapOptions = {
         center: {lat: init_lat, lng: init_lng},
         zoom: 12,
-        disableDefaultUI: true
+        disableDefaultUI: true,
+        zoomControl: true
     };
 
     // create the map
     if (map == null) {
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     }
+
+    map.setZoom(12);
 
     // set a marker
     if (marker == null) {
@@ -40,7 +43,7 @@ function recenter_map() {
     var new_lat = parseFloat($('#popup_map input[name="lat"]').val());
     var new_lng = parseFloat($('#popup_map input[name="lng"]').val());
     marker.setPosition(new google.maps.LatLng(new_lat, new_lng));
-    map.setCenter(new google.maps.LatLng( new_lat, new_lng));
+    map.setCenter(new google.maps.LatLng(new_lat, new_lng));
 }
 
 $(document).ready(function() {

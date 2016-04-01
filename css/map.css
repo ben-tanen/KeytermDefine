@@ -1,0 +1,19 @@
+#popup_map {
+    display: none;
+}
+
+#map-canvas {
+    width: 390px;
+    height: 240px;
+}
+
+#popup_map #location {
+    margin-top: 8px;
+}
+
+#recenter {
+    width: 262px;
+    padding: 5px;
+    margin-top: 5px;
+    font-size: 13px;
+}

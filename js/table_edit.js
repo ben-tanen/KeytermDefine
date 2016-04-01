@@ -78,29 +78,30 @@ function openLocMenu() {
     term_id = parseInt($('tr').index(event.path[3])) - 1;
     term    = keyterms[term_id];
 
-    $('#popup_content').html('<form></form>');
+    $('#popup_map').css({'display': 'inherit'});
 
     // put content for location into popup form
-    html_str =  '<p>Lat:  <input type="text" name="lat" value="' + term.location.lat +'"></p>';
-    html_str += '<p>Lng:  <input type="text" name="lng" value="' + term.location.lng +'"></p>';
-    $('#popup_content form').append(html_str);
+    $('#popup_map input[name="lat"]').val(term.location.lat);
+    $('#popup_map input[name="lng"]').val(term.location.lng);
+    initialize();
+    recenter_map();
 
     // open popup
     popup_change_loc = new jBox('Confirm',{
-        width: 310,
-        height: 135,
+        width: 500,
+        height: 425,
         confirmButton: 'Confirm',
         confirm: changeLocation,
         title: 'Change Location for "' + term.term + '"',
-        content: $('#popup_content'),
+        content: $('#popup_map'),
     });
 
     popup_change_loc.open();
 }
 
 function changeLocation(evt) {
-    var new_lat = parseFloat($('#popup_content form input[name="lat"]').val());
-    var new_lng = parseFloat($('#popup_content form input[name="lng"]').val());
+    var new_lat = parseFloat($('#popup_map input[name="lat"]').val());
+    var new_lng = parseFloat($('#popup_map input[name="lng"]').val());
     
     keyterms[term_id].location = {'lat': new_lat, 'lng': new_lng};
     html_str = '<p>Lat: ' + new_lat.toFixed(3) + '</p><p>Lng: ' + new_lng.toFixed(3) + '</p><center><button onclick="openLocMenu(event);" class="change_loc_btn">Change</button></center>';

@@ -7,13 +7,16 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/query.css">
     <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="css/map.css">
 
     <script type="text/javascript" src='js/lib/jquery.min.js'></script>
     <script type="text/javascript" src='js/lib/papaparse.min.js'></script>
     <script type="text/javascript" src="js/lib/editabletable.js"></script>
     <script type="text/javascript" src="js/lib/jBox.min.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true&amp;libraries=places"></script>
     <script type="text/javascript" src='js/query_data.js'></script>
-    <script tyle="text/javascript" src='js/table_edit.js'></script>
+    <script type="text/javascript" src='js/table_edit.js'></script>
+    <script type="text/javascript" src='js/map.js'></script>
 </head>
 <body>
     <div class='main_content'>
@@ -53,6 +56,16 @@
 
     <div id='popup_content'>
         <p></p>
+    </div>
+
+    <div id='popup_map'>
+        <div id="map-canvas"></div>
+
+        <div id="location">
+            <p>Latitude: <input style='margin-left: 13px;' type='text' name='lat' value='42.358'></p>
+            <p>Longitude: <input type='text' name='lng' value='-71.064'></p>
+            <button id='recenter'>Recenter Map</button>
+        </div>
     </div>
 </body>
 </html>

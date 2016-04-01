@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Key Terms Define | Tufts University</title>
+    <link rel="stylesheet" href="css/jBox.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/query.css">
+    <link rel="stylesheet" href="css/table.css">
+
+    <script type="text/javascript" src='js/lib/jquery.min.js'></script>
+    <script type="text/javascript" src='js/lib/papaparse.min.js'></script>
+    <script type="text/javascript" src="js/lib/editabletable.js"></script>
+    <script type="text/javascript" src="js/lib/jBox.min.js"></script>
+    <script type="text/javascript" src='js/query_data.js'></script>
+    <script tyle="text/javascript" src='js/table_edit.js'></script>
+</head>
+<body>
+    <div class='main_content'>
+        <h1>Key Terms Define</h1>
+        <h3>Tufts University</h3>
+        <div class='csv_parser'>
+            <input type="file" id="files" multiple>
+            <button id="submit-parse">Parse Files</button>
+            <button id='output'>Output Results</button>
+            <a href='' target='_blank' download='download.csv' id='download_link'>click me</a>
+        </div>
+
+        <div class='progress'>
+            <p><span id='csv_parse_progress' class='loading'>Done parsing files...</p>
+            <p><span id='wikipedia_def_progress' class='loading'>Done querying Wikipedia definitions...</p>
+            <p><span id='wikipedia_loc_progress' class='loading'>Done querying Wikipedia locations...</p>
+            <p><span id='wikipedia_img_progress' class='loading'>Done querying Wikipedia images...</p>
+        </div>
+    </div>
+
+    <div class='table'>
+        <table id='edit_table'>
+            <col width='15%'>
+            <col width='8%'>
+            <col width='40%'>
+            <col width='25%'>
+            <col width='10%'>
+            <tr id='table_top_row'>
+                <th>Term</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Geotag</th>
+            </tr>
+        </table>
+    </div>
+
+    <div id='popup_content'>
+        <p></p>
+    </div>
+</body>
+</html>

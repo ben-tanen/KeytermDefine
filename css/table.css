@@ -53,5 +53,11 @@ table, td, th {
 
 input[name="lat"], input[name="lng"] {
     font-size: 13px;
-    te
+}
+
+input[name="img_url"] {
+    font-size: 13px;
+    margin-top: 13px;
+    margin-bottom: 5px;
+    width: 250px;
 }

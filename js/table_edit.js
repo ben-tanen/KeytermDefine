@@ -52,6 +52,8 @@ function openImageMenu() {
 
     $('#popup_content').html('<form></form>');
 
+    $('#popup_content form').html('<p>You can add a custom image URL or select an image provide by Wikipedia</p><p>Custom URL: <input type="text" name="img_url"></p>');
+
     // put content of images into popup form
     for (var i = 0; i < term.images.length; i++) {
         html_str = '<p><input type="radio" name="image" value="' + i + '"';
@@ -109,8 +111,13 @@ function changeLocation(evt) {
 }
 
 function changeImage(evt) {
-    var new_img_id = $('#popup_content form input[name="image"]:checked').val();
-    keyterms[term_id].thumbnail = keyterms[term_id].images[new_img_id];
+    if ($('#popup_content form input[name="img_url"]').val() != "") {
+        keyterms[term_id].thumbnail = $('#popup_content form input[name="img_url"]').val();
+    } else {
+        var new_img_id = $('#popup_content form input[name="image"]:checked').val();
+        keyterms[term_id].thumbnail = keyterms[term_id].images[new_img_id];
+    }
+
     $('#edit_table tr:nth-child(' + (term_id + 2) + ') th:nth-child(4) img').attr('src', keyterms[term_id].thumbnail);
 
 }

@@ -40,7 +40,7 @@ function addKeytermRow(keyterm) {
             row_str += '<th>N/A</th></tr>';
         }
     } else {
-        row_str = '<tr><td>' + keyterm.term + '</td><td>' + keyterm.type + '</td><td>Ambigious or invalid keyterm</td><td>IMAGE URL</td><td>N/A</td></tr>'
+        row_str = '<tr><td>' + keyterm.term + '</td><td>' + keyterm.type + '</td><td>Ambigious or invalid keyterm</td><td></td><td></td></tr>'
     }
     
     $('#edit_table tr:last').after(row_str);

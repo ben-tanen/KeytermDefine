@@ -27,6 +27,14 @@ table, td, th {
     font-weight: bold;
 }
 
+tr.invalid_term {
+    background-color: rgba(255, 0, 0, 0.3);;
+}
+
+tr.ambigious_term {
+    background-color: rgba(255, 221, 55, 0.3);;
+}
+
 .table th {
     cursor: default;
 }
@@ -60,4 +68,10 @@ input[name="img_url"] {
     margin-top: 13px;
     margin-bottom: 5px;
     width: 250px;
+}
+
+.refresh-term, .delete-term {
+    text-decoration: underline;
+    color: blue;
+    cursor: pointer;
 }

@@ -39,8 +39,11 @@ function addKeytermRow(keyterm) {
         } else {
             row_str += '<th>N/A</th></tr>';
         }
+    } else if (keyterm.status == 'ambigious') {
+        row_str = '<tr class="ambigious_term"><td>' + keyterm.term + '</td><th>' + keyterm.type + '</th><th>Ambigious keyterm</th><td></td><td></td></tr>'
     } else {
-        row_str = '<tr><td>' + keyterm.term + '</td><td>' + keyterm.type + '</td><td>Ambigious or invalid keyterm</td><td></td><td></td></tr>'
+        row_str = '<tr class="invalid_term"><td>' + keyterm.term + '</td><td>' + keyterm.type + '</td>';
+        row_str += '<th colspan="3"><p><b>Invalid or ambigious keyterm</b></p><p>To retry, rename the term and <span class="refresh-term" onclick="refreshTerm();">click here</span></p><p>To delete term, <span class="delete-term" onclick="deleteTerm();">click here</span></p></th></tr>'
     }
     
     $('#edit_table tr:last').after(row_str);
@@ -148,6 +151,64 @@ function outputResults() {
     // set link
     $('#download_link').attr('href',(link + encodeURIComponent(csv)));
     $('#download_link')[0].click();
+}
+
+function refreshTerm(evt) {
+    term_id = parseInt($('tr').index(event.path[3])) - 1;
+    console.log('refresh: ', keyterms[term_id].term);
+
+    var new_term = $('#edit_table tr:nth-child(' + (term_id + 2) + ') td:nth-child(1)').html();
+    var new_type = $('#edit_table tr:nth-child(' + (term_id + 2) + ') td:nth-child(2)').html();
+
+    console.log('refreshing now: ', new_term, new_type);
+    keyterm = keyterms[term_id];
+    keyterm.term = new_term;
+    keyterm.type = new_type;
+    keyterm.status = null;
+
+    getWikipediaDefinition(keyterms, term_id);
+    getWikipediaImages(keyterms, term_id);
+    if (keyterm.type == 'location') getWikipediaLocation(keyterms, term_id);
+
+    var checkRefreshProgress = setInterval(function () {
+        if (progress.wikipedia.imagedTerms.indexOf(term_id) > -1 && progress.wikipedia.definedTerms.indexOf(term_id) > -1 && (keyterm.type != 'location' || progress.wikipedia.locatedTerms.indexOf(term_id) > -1)) {
+            
+            clearInterval(checkRefreshProgress);
+
+            row_str = '';
+            if (keyterm.status == 'defined') {
+                row_str = '<td>' + keyterm.term + '</td><th>' + keyterm.type + '</th><td>' + keyterm.definition + '</td><th><img class="term_img" src="' + keyterm.thumbnail + '" /><center><button onclick="openImageMenu(event);" class="change_img_btn">Change</button></center></th>';
+
+                // if keyterm is a place / has location
+                if (keyterm.location != null) {
+                    row_str += '<th><p>Lat: ' + keyterm.location.lat.toFixed(3) + '</p><p>Lng: ' + keyterm.location.lng.toFixed(3) + '</p><center><button onclick="openLocMenu(event);" class="change_loc_btn">Change</button></center></th></th>';
+                } else {
+                    row_str += '<th>N/A</th>';
+                }
+            } else if (keyterm.status == 'ambigious') {
+                row_str = '<td>' + keyterm.term + '</td><th>' + keyterm.type + '</th><th>Ambigious keyterm</th><td></td><td></td>'
+            } else {
+                row_str = '<td>' + keyterm.term + '</td><th>' + keyterm.type + '</th>';
+                row_str += '<th colspan="3"><p><b>Invalid keyterm</b></p><p>To retry, rename the term and <span class="refresh-term" onclick="refreshTerm();">click here</span></p><p>To delete term, <span class="delete-term" onclick="deleteTerm();">click here</span></p></th>'
+            }
+
+            $('#edit_table tr:nth-child(' + (term_id + 2) + ')').html(row_str);
+            $('#edit_table tr:nth-child(' + (term_id + 2) + ')').removeClass('invalid_term ambigious_term');
+            console.log(keyterm.status);
+
+            if (keyterm.status == 'ambigious') {
+                $('#edit_table tr:nth-child(' + (term_id + 2) + ')').addClass('ambigious-term');
+            } else if (keyterm.status == 'invalid') {
+                $('#edit_table tr:nth-child(' + (term_id + 2) + ')').addClass('invalid-term'); 
+            }
+        }
+    }, 500);
+}
+
+function deleteTerm(evt) {
+    term_id = parseInt($('tr').index(event.path[3])) - 1;
+    $('#edit_table tr:nth-child(' + (term_id + 2) + ')').remove(); // delete row from table
+    keyterms.splice(term_id); // delete from data structure
 }
 
 $(function() {

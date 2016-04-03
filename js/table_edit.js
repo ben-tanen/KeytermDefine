@@ -201,6 +201,9 @@ function refreshTerm(evt) {
             } else if (keyterm.status == 'invalid') {
                 $('#edit_table tr:nth-child(' + (term_id + 2) + ')').addClass('invalid-term'); 
             }
+
+            $('#edit_table').editableTableWidget({ editor: $('<textarea>')})
+            .find('td').on('change', tableChange).on('validate', tableValidate);
         }
     }, 500);
 }

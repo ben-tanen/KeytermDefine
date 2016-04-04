@@ -20,11 +20,10 @@ function tableChange(evt, newValue) {
     var row_num = $('tr').index(target.parent()[0]) - 1;
 
     keyterms[row_num][['term', 'type', 'definition', 'thumbnail', 'geotag'][col_num]] = newValue;
-    console.log('changing', keyterms[row_num]);
 }
 
 function tableValidate(evt, newValue) {
-    console.log('validating');
+
 }
 
 function addKeytermRow(keyterm) {
@@ -137,7 +136,8 @@ function outputResults() {
         term = keyterms[i];
         if (term.status == 'invalid') continue;
 
-        csv += 'add,true,' + term.type + ',' + term.term + ',';
+        csv += 'add,true,' + term.type + ',';
+        csv += term.term.replace(/,/g, ' -') + ',';
         csv += term.definition.replace(/,/g, ' -') + ',';
         csv += term.thumbnail;
 
@@ -155,12 +155,10 @@ function outputResults() {
 
 function refreshTerm(evt) {
     term_id = parseInt($('tr').index(event.path[3])) - 1;
-    console.log('refresh: ', keyterms[term_id].term);
 
     var new_term = $('#edit_table tr:nth-child(' + (term_id + 2) + ') td:nth-child(1)').html();
     var new_type = $('#edit_table tr:nth-child(' + (term_id + 2) + ') td:nth-child(2)').html();
 
-    console.log('refreshing now: ', new_term, new_type);
     keyterm = keyterms[term_id];
     keyterm.term = new_term;
     keyterm.type = new_type;
@@ -194,7 +192,6 @@ function refreshTerm(evt) {
 
             $('#edit_table tr:nth-child(' + (term_id + 2) + ')').html(row_str);
             $('#edit_table tr:nth-child(' + (term_id + 2) + ')').removeClass('invalid_term ambigious_term');
-            console.log(keyterm.status);
 
             if (keyterm.status == 'ambigious') {
                 $('#edit_table tr:nth-child(' + (term_id + 2) + ')').addClass('ambigious-term');
@@ -217,5 +214,17 @@ function deleteTerm(evt) {
 $(function() {
     $('#output').click(function() {
         outputResults();
-    }); 
+    });
+
+    $('#about').click(function() {
+            // open popup
+        popup_about = new jBox('Modal',{
+            width: 500,
+            height: 425,
+            title: 'About Keyterm Define',
+            content: $('#popup_about'),
+        });
+
+        popup_about.open();  
+    });
 });
